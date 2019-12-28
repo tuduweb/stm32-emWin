@@ -1,0 +1,32 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/Libraries/CMSIS/**",
+                "${workspaceFolder}/User/**",
+                "${workspaceFolder}/Libraries/FWlib/inc/**",
+                "${workspaceFolder}/uCOS-III/uC-CPU/**",
+                "${workspaceFolder}/uCOS-III/uC-CPU/ARM-Cortex-M3/RealView/**",
+                "${workspaceFolder}/uCOS-III/uC-LIB/**",
+                "${workspaceFolder}/uCOS-III/uC-LIB/Ports/ARM-Cortex-M3/RealView/**",
+                "${workspaceFolder}/uCOS-III/uCOS-III/Source/**",
+                "${workspaceFolder}/uCOS-III/uCOS-III/Ports/ARM-Cortex-M3/Generic/RealView/**",
+                "${workspaceFolder}/User/app/**",
+                "${workspaceFolder}/STemWinLibrary522/Config/**",
+                "${workspaceFolder}/STemWinLibrary522/inc/**",
+                "${workspaceFolder}/ff10/**",
+                "${workspaceFolder}/ff10/option/**",
+                "${workspaceFolder}/User/os/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "intelliSenseMode": "msvc-x64"
+        }
+    ],
+    "version": 4
+}
