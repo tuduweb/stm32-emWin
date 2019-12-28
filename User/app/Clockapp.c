@@ -1,4 +1,4 @@
-/**************************************************************************************
+﻿/**************************************************************************************
 * 因为emWin显示只支持UTF-8编码格式的中文，如果希望直接显示在Keil直接输入的中文，      *
 *            比如使用：GUI_DispStringHCenterAt("流水灯",110,120);                     *
 * 该文件必须以UTF-8编码格式，不然中文无法正常显示。                                   *
@@ -48,6 +48,9 @@
 // USER START (Optionally insert additional includes)
 #include "includes.h"
 #include  "app.h"
+
+extern GUI_FONT     XBF_Font;
+
 // USER END
 /**************************************************************************************
 *
@@ -91,7 +94,7 @@ static const GUI_WIDGET_CREATE_INFO _aDialogCreateClock[] = {
   { TEXT_CreateIndirect, "Time", GUI_ID_TEXT0, 20, 210, 100, 40, 0, 0x64, 0 },
   { TEXT_CreateIndirect, "wday", GUI_ID_TEXT1, 120, 205, 100, 20, 0, 0x64, 0 },
   { TEXT_CreateIndirect, "Data", GUI_ID_TEXT2, 120, 225, 100, 20, 0, 0x64, 0 },
-  { TEXT_CreateIndirect, "Time Setting", GUI_ID_TEXT3, 0, 0, 110, 20, 0, 0x64, 0 },
+  { TEXT_CreateIndirect, "Time Setting", GUI_ID_TEXT3, 0, 0, 240, 20, 0, 0x64, 0 },
   { BUTTON_CreateIndirect, "Ok", GUI_ID_BUTTON0, 40, 140, 150, 30, 0, 0x0, 0 },
   { TEXT_CreateIndirect, "TIME", GUI_ID_TEXT4, 0, 20, 210, 20, 0, 0x64, 0 },
   { EDIT_CreateIndirect, "Year", GUI_ID_EDIT0, 20, 40, 50, 25, 0, 0x4, 0 },
@@ -218,7 +221,7 @@ static void _cbDialogClock(WM_MESSAGE * pMsg) {
     hItem = pMsg->hWin;
     FRAMEWIN_SetTextColor(hItem,GUI_DARKGRAY);
     FRAMEWIN_SetFont(hItem, GUI_FONT_16B_ASCII);
-    FRAMEWIN_SetTextAlign(hItem, GUI_TA_LEFT | GUI_TA_VCENTER);
+    FRAMEWIN_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
 		FRAMEWIN_AddCloseButton(hItem,FRAMEWIN_BUTTON_RIGHT,0);
     FRAMEWIN_SetTitleHeight(hItem, 20);
     //
@@ -246,23 +249,23 @@ static void _cbDialogClock(WM_MESSAGE * pMsg) {
     // Initialization of 'Time Setting'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, GUI_ID_TEXT3);
-    TEXT_SetTextAlign(hItem, GUI_TA_LEFT | GUI_TA_VCENTER);
+    TEXT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
     TEXT_SetFont(hItem, GUI_FONT_20_ASCII);
-    TEXT_SetText(hItem, "Time Setting:");
+    TEXT_SetText(hItem, "Time Setting");
     //
     // Initialization of 'Ok'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, GUI_ID_BUTTON0);
-    BUTTON_SetFont(hItem, GUI_FONT_16B_ASCII);
-    BUTTON_SetText(hItem, "Setting RTC");
+    BUTTON_SetFont(hItem, &XBF_Font);
+    BUTTON_SetText(hItem, "保存时间");
 		BUTTON_SetFocussable(hItem, 0);
     //
     // Initialization of 'TIME'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, GUI_ID_TEXT4);
-    TEXT_SetFont(hItem, GUI_FONT_16B_ASCII);
+    TEXT_SetFont(hItem, &XBF_Font);
     TEXT_SetTextAlign(hItem, GUI_TA_LEFT | GUI_TA_VCENTER);
-    TEXT_SetText(hItem, "        Year        Month        Day");
+    TEXT_SetText(hItem, "     年      月      日");
     //
     // Initialization of 'Year'
     //
@@ -299,8 +302,8 @@ static void _cbDialogClock(WM_MESSAGE * pMsg) {
     //
     hItem = WM_GetDialogItem(pMsg->hWin, GUI_ID_TEXT5);
     TEXT_SetTextAlign(hItem, GUI_TA_LEFT | GUI_TA_VCENTER);
-    TEXT_SetText(hItem, "        Hour       Minute      Second");
-    TEXT_SetFont(hItem, GUI_FONT_16B_ASCII);
+    TEXT_SetText(hItem, "     时      分      秒");
+    TEXT_SetFont(hItem, &XBF_Font);
     //
     // Initialization of 'HOUR'
     //
@@ -354,6 +357,8 @@ static void _cbDialogClock(WM_MESSAGE * pMsg) {
       // USER END
       }
       break;
+    
+    //修改年 点击编辑框触发
     case GUI_ID_EDIT0: // Notifications sent by 'Year'
       switch(NCode) {
       case WM_NOTIFICATION_CLICKED:

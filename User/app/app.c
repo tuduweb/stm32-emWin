@@ -692,15 +692,17 @@ void UserAPP(void)
 	WM_SetCallback(WM_HBKWIN, _cbBkWindow);
 	WM_CreateTimer(WM_HBKWIN, 0, 1000, 0);
 	/* 创建三个窗口 状态栏、控制栏、主窗口*/
-	CreateMidWin();
-	CreateTopWin();
-	CreateBotWin();
+
+	// CreateMidWin();
+	// CreateTopWin();
+	// CreateBotWin();
+	
 	GUI_Delay(10);
 	LCD_BK_EN;
 
-	// Flag_ICON105 = 1;
-	// FUN_ICON105Clicked();
-
+	Flag_ICON105 = 1;
+	UserApp_Flag = 1;
+	FUN_ICON105Clicked();
 
 	while(1)
 	{
