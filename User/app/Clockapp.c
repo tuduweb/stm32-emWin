@@ -127,6 +127,10 @@ static void _cbDialogClock(WM_MESSAGE * pMsg) {
   OS_ERR      err;
   // USER END
 
+  /* 转换rtc值至北京时间*/
+  RTC_TimeCovr(&systmtime);
+
+
   switch (pMsg->MsgId) {
 	case WM_TIMER:
 		//printf("Clockapp:MY_MESSAGE_RTC\n");
@@ -135,8 +139,7 @@ static void _cbDialogClock(WM_MESSAGE * pMsg) {
 			WM_RestartTimer(pMsg->Data.v, 250);
 			break;
 		}
-		/* 转换rtc值至北京时间*/
-		RTC_TimeCovr(&systmtime);
+
 
 		/* 转换成字符串 */
 		sprintf(text_buffer,"%02d:%02d:%02d",systmtime.tm_hour,systmtime.tm_min,systmtime.tm_sec);
@@ -264,26 +267,33 @@ static void _cbDialogClock(WM_MESSAGE * pMsg) {
     // Initialization of 'Year'
     //
     hItem = WM_GetDialogItem(pMsg->hWin, GUI_ID_EDIT0);
-    EDIT_SetText(hItem, "2015");
+
+
+    sprintf(text_buffer,"%04d",systmtime.tm_year);
+    EDIT_SetText(hItem, text_buffer);
     EDIT_SetFont(hItem, GUI_FONT_20_ASCII);
     EDIT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
-		EDIT_SetUlongMode(hItem,2015,1970,2038);
+		EDIT_SetUlongMode(hItem,systmtime.tm_year,1970,2038);
     //
     // Initialization of 'Month'
     //
+    sprintf(text_buffer,"%02d",systmtime.tm_mon);
+
     hItem = WM_GetDialogItem(pMsg->hWin, GUI_ID_EDIT1);
-    EDIT_SetText(hItem, "04");
+    EDIT_SetText(hItem, text_buffer);
     EDIT_SetFont(hItem, GUI_FONT_20B_ASCII);
     EDIT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
-		EDIT_SetUlongMode(hItem,04,1,12);
+		EDIT_SetUlongMode(hItem,systmtime.tm_mon,1,12);
     //
     // Initialization of 'Day'
     //
+    sprintf(text_buffer,"%02d",systmtime.tm_mday);
+
     hItem = WM_GetDialogItem(pMsg->hWin, GUI_ID_EDIT2);
-    EDIT_SetText(hItem, "28");
+    EDIT_SetText(hItem, text_buffer);
     EDIT_SetFont(hItem, GUI_FONT_20B_ASCII);
     EDIT_SetTextAlign(hItem, GUI_TA_HCENTER | GUI_TA_VCENTER);
-		EDIT_SetUlongMode(hItem,28,1,31);
+		EDIT_SetUlongMode(hItem,systmtime.tm_mday,1,31);
     //
     // Initialization of 'Hour'
     //

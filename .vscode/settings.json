@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "includes.h": "c",
-        "pysearch.h": "c"
+        "pysearch.h": "c",
+        "bsp_calendar.h": "c"
     }
 }

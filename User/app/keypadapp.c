@@ -483,7 +483,10 @@ static void _cbKeyPad(WM_MESSAGE * pMsg)
 								}
 
 								TEXT_SetText(ahText[0], (const char *)s_tempbuf);
-								ptr = PYSearch(s_tempbuf, (int *)&s_Hznum);
+								//ptr = PYSearch(s_tempbuf, (int *)&s_Hznum);
+
+								ptr = '\0';
+
 
 								if (ptr != '\0')
 								{

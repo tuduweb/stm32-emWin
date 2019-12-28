@@ -593,7 +593,7 @@ u8 GetJieQiStr(u16 year,u8 month,u8 day,u8 *str)
 		return 1;
 	}
 	                                                //今天不是一个节气日
-	StrCopy(str,(u8 *)"离立冬还有30天",21);
+	StrCopy(str,(u8 *)"离节气还有??天",21);
 	if(day<JQdate)                                  //如果今天日期小于本月的节气日期
 	{
 		StrCopy(&str[3],(u8 *)JieQiStr[JQ],6);
@@ -601,8 +601,39 @@ u8 GetJieQiStr(u16 year,u8 month,u8 day,u8 *str)
 	} 
 	else                                            //如果今天日期大于本月的节气日期
 	{
-             if((JQ+1) >23)  return 0;
-		StrCopy(&str[3],(u8 *)JieQiStr[JQ+1],6);
+		// if( (JQ + 1) == 24 )
+		// {
+
+		// 	StrCopy(&str[3],(u8 *)JieQiStr[0],6);
+		// 	GetJieQi(year+1,1,1,&JQdate);//明年的1月份的第一个节气的日子的值
+		// 	day = 31 - day + JQdate;
+
+
+		// }else
+		// {
+			
+		// 	if((JQ+1) >23)  return 0;//bug 过冬至后 JQ+1=24 > 23
+		// 	StrCopy(&str[3],(u8 *)JieQiStr[JQ+1],6);
+		// 	if(day < 15)
+		// 	{
+		// 		GetJieQi(year,month,15,&JQdate);
+		// 		day=JQdate-day;
+		// 	}
+		// 	else                                        //翻月
+		// 	{
+		// 		MaxDay=MonthDayMax[month-1];
+		// 		if(month==2)                            //润月问题
+		// 		{
+		// 			if((year%4==0)&&((year%100!=0)||(year%400==0))) MaxDay++;
+		// 		}
+		// 		if(++month==13)	month=1;
+		// 		GetJieQi(year,month,1,&JQdate);
+		// 		day=MaxDay-day+JQdate;
+		// 	}
+		// }
+
+		if((JQ+1) >24)  return 0;//bug 过冬至后 JQ+1=24 > 23
+		StrCopy(&str[3],(u8 *)JieQiStr[(JQ+1)%24],6);//bug fix 跨年 ----->>> %24
 		if(day < 15)
 		{
 			GetJieQi(year,month,15,&JQdate);
@@ -615,10 +646,15 @@ u8 GetJieQiStr(u16 year,u8 month,u8 day,u8 *str)
 			{
 				if((year%4==0)&&((year%100!=0)||(year%400==0))) MaxDay++;
 			}
-			if(++month==13)	month=1;
+			if(++month==13)
+			{
+				month=1;year++;
+			}
 			GetJieQi(year,month,1,&JQdate);
 			day=MaxDay-day+JQdate;
 		}
+
+
 	}
 	str[15]=day/10+'0';
 	str[16]=day%10+'0';
